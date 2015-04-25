@@ -1,0 +1,9 @@
+.column-5 {
+	float: left;
+    position: relative;
+    min-height: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+	width: 20%;
+	display: inline-block;
+}

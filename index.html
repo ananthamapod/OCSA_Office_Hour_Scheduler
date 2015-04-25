@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>OCSA Scheduler, Version 1.0</title>
+    <!-- CSS -->
+    <!-- load Bootstrap and custom style.css -->
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="grid.css">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+</head>
+<body>
+<div class="container" ng-app="scheduleApp">
+  
+  <div class="page-header text-center">       
+	<h1>OCSA Scheduler, Version 1.0</h1>
+	<p>Simple view for now</p>
+  </div>
+
+  <!-- were doing one day with 1 time slot for simplicity -->
+  <!-- we'll use angular's ng-repeat in a bit to get the other days and times -->
+  <div ng-controller="mainController">
+    <div class="row times ">
+
+      <div ng-repeat="day in days" class="column-5 text-center">
+                
+        <h2>{{day.name}}</h2>
+        
+        <div class="time-slot">
+        	<ul id="{{day.name}}" class="time">
+        		<li ng-repeat="hour in hours">
+  		        <input type="checkbox" id="{{day.short}}-{{hour.hour}}">
+  		        <label for="{{day.short}}-{{hour.hour}}">{{hour.hour}}</label>
+        		</li>
+        	</ul>
+        </div>
+      </div>
+    </div>
+
+    <p class="text-center">    
+      <a href="#" ng-click="reset()" class="btn btn-primary">Reset</a>
+    </p>
+  </div>
+
+</div>
+    <ul id="messages"></ul>
+    <form action="">
+		<input id="m" autocomplete="off" /><button>Send</button>
+    </form>
+<script src="/socket.io/socket.io.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+<script src="ang-app.js"></script>
+<script>
+
+
+var socket = io();
+$('form').submit(function(){
+    socket.emit('chat message', $('#m').val());
+    $('#m').val('');*/
+	$('#messages').append($('<li>').text($('#m').val()));
+    $('#m').val('');
+    return false;
+});
+socket.on('chat message', function(msg){
+    $('#messages').append($('<li>').text(msg));
+});
+</script></body>
+</html>
