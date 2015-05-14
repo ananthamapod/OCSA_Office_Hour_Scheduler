@@ -5,7 +5,7 @@
 	<title>OCSA Scheduler, Version 1.0</title>
     <!-- CSS -->
     <!-- load Bootstrap and custom style.css -->
-    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="grid.css">
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
@@ -18,8 +18,6 @@
 	<p>Simple view for now</p>
   </div>
 
-  <!-- were doing one day with 1 time slot for simplicity -->
-  <!-- we'll use angular's ng-repeat in a bit to get the other days and times -->
   <div ng-controller="mainController">
     <div class="row times ">
 
@@ -30,7 +28,7 @@
         <div class="time-slot">
         	<ul id="{{day.name}}" class="time">
         		<li ng-repeat="hour in hours">
-  		        <input type="checkbox" id="{{day.short}}-{{hour.hour}}">
+  		        <input type="checkbox" name="{{day.short}}{{hour.hour}}" id="{{day.short}}-{{hour.hour}}">
   		        <label for="{{day.short}}-{{hour.hour}}">{{hour.hour}}</label>
         		</li>
         	</ul>
@@ -38,11 +36,13 @@
       </div>
     </div>
 
-    <p class="text-center">    
-      <a href="#" ng-click="reset()" class="btn btn-primary">Reset</a>
+    <p class="text-center">
+      <a href="#" ng-click="save()" class="btn btn-primary">Save</a>
+      <a href="#" ng-click="reset()" class="btn btn-danger">Reset</a>
     </p>
   </div>
-
+  <div id="message" class="alert alert-success" role="alert">
+  </div>
 </div>
     <ul id="messages"></ul>
     <form action="">
@@ -50,14 +50,15 @@
     </form>
 <script src="/socket.io/socket.io.js"></script>
 <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
-<script src="ang-app.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="ang-schedule.js"></script>
 <script>
 
 
 var socket = io();
 $('form').submit(function(){
     socket.emit('chat message', $('#m').val());
-    $('#m').val('');*/
+    $('#m').val('');
 	$('#messages').append($('<li>').text($('#m').val()));
     $('#m').val('');
     return false;

@@ -13,17 +13,49 @@ The matching algorithm is described as follows, with the times T and people P mo
 	<pre>
 		Let n <- floor(|T|/|P|)
 
-		Let A be a list with all p in P, and B be an empty list.
+		Let A be a list with all p in P, and B be an empty stack.
 
 		new Queue()
-		enqueue empty schedule
+
+		//enqueue new empty schedule to start off
+		enqueue(new Schedule())
 
 		while A still has p to be scheduled:
 			k <- Queue.size
-			curr <- p in A with lowest number of edges
-			for k times:
+			if k = 0:
+				//no possible matching
+				break
+			else:
+				curr <- p in A with lowest number of edges
 
-			endfor
+				for k times:
+					oldM <- dequeue()
+					tmp <- t in E(curr, t)
+
+					- remove from tmp all t already in oldM
+
+					possibilities <- empty list
+					if tmp has more than N t:
+						possibilities <- combination: choose N from t in tmp
+					endif
+
+					//if possibilities is empty, will not go through this loop
+					for poss in possibilities:
+						newM <- copy of oldM
+						- add t in poss to newM as assigned to curr
+						enqueue(newM)
+					endfor
+				endfor
+
+				- remove curr from A
+				- push curr onto B
+			endif
 		endwhile
+
+		if Queue is empty:
+			error: no possible schedule with current availabilities
+		else:
+			
+		endif
 	</pre>
 </blockquote>

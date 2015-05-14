@@ -1,5 +1,5 @@
 // Create a new module
-var scheduleApp = angular.module('scheduleApp', []);
+var scheduleApp = angular.module('adminApp', []);
 
 // register a new service
 scheduleApp.value('appName', 'Scheduler');
@@ -36,7 +36,4 @@ scheduleApp.controller('mainController', function ($scope) {
   	{"hour": '6:00 PM'},
   	{"hour": '7:00 PM'}
   ];
-  $scope.reset = function() {
-  	$('ul.time input').prop("checked", "");
-  }
 });

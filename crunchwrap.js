@@ -125,12 +125,22 @@ function generateMatches(users) {
 					availHours.splice(index, 1);
 				}
 			}
+
 			if(availHours.length < N) {
 				continue;
 			}
+
 			var possibilities = combinations(availHours, N);
+
 			for(possibility in possibilities) {
+
 				var newM = oldM.clone();
+
+				for(var i = 0; i < 3; i++) {
+					newM.addHour(possibility[i], p.name);
+				}
+				
+				matches.enqueue(newM);
 			}
 		}
 

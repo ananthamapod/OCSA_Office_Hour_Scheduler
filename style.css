@@ -88,3 +88,15 @@ ul.time {
   0%, 100%  { background:#6AB074; transform:scale(1); }
   50%       { background:rgb(119, 218, 78); transform:scale(1.5); }
 }
+
+#message {
+  display: none;
+}
+
+table {
+  empty-cells: show;
+}
+
+.pagebar {
+  padding-bottom: 1em;
+}
