@@ -1,0 +1,151 @@
+<% layout('layout') -%>
+<div class="container" ng-app="adminApp">
+  
+  <div class="page-header text-center">       
+	<h1>OCSA Scheduler, Version 1.0</h1>
+	<p>Admin View</p>
+  </div>
+  <div class="row usage-info">
+    <div class="col-xs-12 col-md-10 vcenter text-center">
+      <h4>
+        Welcome admin, add or remove users in the users tab, generate or view schedules in the schedules tab.
+      </h4>
+    </div><!--
+    --><div class="col-xs-2 col-md-2 vcenter text-center">
+      <a href="logout" class="btn btn-primary">Logout</a>
+    </div>
+  </div>
+
+  <div ng-controller="mainController">
+
+    <ul class="nav nav-tabs nav-justified">
+        <li role="presentation" class="active"><a data-toggle="tab" href="#users">Users</a></li>
+        <li role="presentation"><a data-toggle="tab" href="#schedules">Schedules</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="users" class="tab-pane fade in active">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              
+            </div>
+            <div class="panel-body" style="overflow: auto;">
+              <% if(userData) { %>
+                <div class="row user-card" ng-repeat="user in users">
+                  <div class="col-xs-12">
+                    <div class="raised pull-right">
+                      <a href="" class="toEdit btn btn-default btn-icon"><i class="glyphicon glyphicon-edit" style="color: #FF7F7F" ng-click="edit($index)" aria-hidden="true"></i></a>
+                    </div>
+                    <div class="row">
+                      <div class="editable col-xs-12 col-md-5 vcenter">
+                        <div class="display">
+                          <p style="padding-left: 1em; font-weight: 400; font-size: 2em">{{user['username']}}</p>
+                          <p style="color: #A4A4A4">{{user['email']}}</p>
+                        </div>
+                        <div class="edit">
+                          <div>
+                            <label for="user:{{user.username}}:username">Name:</label>
+                            <input type="text" name="user:{{user.username}}:username" ng-model="user.username"/>
+                          </div>
+                           <div>
+                            <label for="user:{{user.username}}:email">Email: </label>
+                            <input type="text" name="user:{{user.username}}:email" ng-model="user.email"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="noneditable col-xs-12 col-md-6 vcenter">
+                        <p>Number of hours available: {{user['hours'].length}}</p>
+                        <span title="{{user['username']}} has at least 5 hours available" class="glyphicon glyphicon-check" style="color: #0a0; font-size: 3rem;" aria-hidden="true"></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr/>
+                <div class="row">
+                  <div class="col-xs-12 text-center">
+                    <div class="morph-container">
+                      <a href="" id="tryAddUser" ng-click="tryAddUser()" class="morphFrom btn btn-info">Add a User</a>
+                      <span class="morphTo">
+                        <input class="vcenter" type="text" ng-model="newUserName" value="Name" name="username" style="padding: 6px 12px; margin-right: 6px;"/>
+                        <button id="addUser" ng-click="addUser(newUserName)" class="btn btn-secondary vcenter" style="color: #222;">Add</button>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              <% } else { %>
+                <div>
+                  Sorry, it looks like the database couldn't be accessed. Please refresh the page to try again. 
+                </div>
+              <% } %>
+            </div>
+          </div>
+        </div>
+        <div id="schedules" class="tab-pane fade">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              
+            </div>
+            <div class="panel-body" style="overflow: auto;">
+              <table class="table text-center">
+                <thead>
+                  <tr>
+                    <th>
+                      &nbsp;
+                    </th>
+                    <th ng-repeat="day in days">
+                      {{day.name}}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="hour in hours">
+                    <th>
+                      {{hour.hour}}
+                    </th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <div class="btn-group pagebar" aria-label="First group" role="group">
+                <button ng-repeat="hour in hours" class="btn btn-default" type="button">{{hour.hour}}</button>
+            </div>
+            <div>
+              <p class="text-center">
+                <a href="" ng-click="reset()" class="btn btn-primary">Select</a>
+              </p>            
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<% if(userData) { %>
+<script>
+var users = [];
+<% userData.forEach(function (item, index, array) { %>
+users.push({"username" : "<%- item['_id'] %>", "email" : "<%- item['email'] %>", "hours" : "<%- item['hours'] %>"});
+<% }); %>
+</script>
+<% } %>
+<script src="ang-admin.js"></script>
+<script>
+$(document).ready(function() {
+  $(".morph-container").focusout(function() {
+      var parent = $(this);
+      parent.toggleClass("morph-enabled");
+      var to = parent.find(".morphTo");
+      var from = $(this).find(".morphFrom");
+      to.css("display", "none");
+      from.fadeIn();
+      to.find("input").val("");
+  });
+});
+</script>

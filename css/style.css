@@ -1,0 +1,209 @@
+* {
+  margin: 0; padding: 0; box-sizing: border-box;
+}
+body {
+  font: 16px Helvetica, Arial;
+  font-family: 'Roboto', sans-serif;
+}
+
+.btn {
+  font-family: 'Roboto', sans-serif;
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 1rem 3rem;
+  margin: 10px;
+}
+
+.btn-icon {
+  padding: 0.8rem 1rem;
+  font-size: 2rem;
+}
+
+.raised {
+  z-index: 99999;
+}
+
+div[ng-controller] {
+  font-family: 'Roboto', sans-serif;
+  font-size: inherit;
+}
+
+div[ng-controller] h2 {
+  font-family: 'Roboto', sans-serif;
+}
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+.morphTo {
+  display: none;
+}
+
+.morph-container {
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.42857;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -moz-user-select: none;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+.morph-enabled {
+  background-color: #809AFF; /*#5BC0DE; /*337AB7*/
+}
+
+/*form {
+  background: #000;
+  padding: 3px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+form input {
+  border: 0;
+  padding: 10px;
+  width: 90%;
+  margin-right: .5%;
+}
+form button {
+  width: 9%;
+  background: rgb(130, 224, 255);
+  border: none;
+  padding: 10px;
+}*/
+#messages {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+#messages li {
+  padding: 5px 10px;
+}
+#messages li:nth-child(odd) {
+  background: #eee;
+}
+
+ul.time {
+  list-style-type: none;
+}
+
+#Friday li:first-child,
+#Friday li:nth-child(9),
+#Friday li:nth-child(10),
+#Friday li:nth-child(11) {
+  visibility: hidden;
+}
+
+/* checkbox - each time slot */
+.time-slot               {  }
+
+/* hide the checkbox itself - the label will be styled */
+.time-slot input     { 
+  display:none; 
+}
+
+/* default styling for our labels */
+.time-slot label     { 
+  padding:1rem 0px; 
+  color:#FFF; 
+  cursor:pointer; 
+  background:#EEE; 
+  border-radius:5px;
+  width: 100%;
+  transition:0.3s ease all;
+}
+
+/* if the label is checked */
+.time-slot input:checked ~ label { 
+  background:#6AB074;
+  cursor:not-allowed;
+  animation:flashAvailable 0.5s ease; 
+}
+
+/* if the label is not checked */
+.time-slot input:not(:checked) ~ label { 
+  background:#f2dede;
+  color: #888;
+  animation:flashBooked 0.5s ease; 
+}
+
+/* animation for the time slot to flash red */
+@keyframes flashBooked {
+  0%, 100%  { background:#f2dede; transform:scale(1); }
+  50%       { background:#F99090; transform:scale(1.5); }
+}
+
+/* animation for the time slot to flash green */
+@keyframes flashAvailable {
+  0%, 100%  { background:#6AB074; transform:scale(1); }
+  50%       { background:#77DA4E; transform:scale(1.5); }
+}
+
+#message {
+  display: none;
+}
+
+.usage-info {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+
+/*------------------Admin Screen Styling--------------------*/
+table {
+  empty-cells: show;
+  overflow: auto;
+}
+
+.user-card hr {
+  margin: 0;
+}
+
+.user-card > div {
+  margin: 1em auto;
+}
+
+table tbody tr:nth-child(odd), .user-card:nth-child(even) {
+  background: #eee;
+}
+
+.pagebar {
+  padding-bottom: 1em;
+}
+
+.edit {
+  display: none;
+}
+
+.user-card .noneditable .glyphicon {
+  font-size: 3rem;
+}
+.user-card .noneditable .glyphicon-check {
+  color: #72CD66;
+}
+.user-card .noneditable .glyphicon-unchecked {
+  color: #FF7F7F;
+} 
+
+.addUser {
+  background: #809AFF;
+  color: white;
+}
+.addUser:hover, .addUser:active, .addUser:focus {
+  background: #8084FF;
+  color: white;
+}
+
+.modal-content .col-xs-12 div {
+  padding: 0.5em 0em;
+}

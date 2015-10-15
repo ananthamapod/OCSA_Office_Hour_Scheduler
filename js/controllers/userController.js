@@ -1,16 +1,4 @@
-// Create a new module
-var scheduleApp = angular.module('scheduleApp', []);
-
-// register a new service
-scheduleApp.value('appName', 'Scheduler');
-
-// configure existing services inside initialization blocks.
-scheduleApp.config(['$locationProvider', function($locationProvider) {
-  // Configure existing providers
-	$locationProvider.hashPrefix('!');
-}]);
-
-scheduleApp.controller('mainController', function ($scope) {
+app.controller('mainController', function ($scope) {
   $scope.days = [
     {'name': 'Monday',
      'short': 'M'},
@@ -36,22 +24,47 @@ scheduleApp.controller('mainController', function ($scope) {
   	{"hour": '6:00 PM'},
   	{"hour": '7:00 PM'}
   ];
+  $scope.data = [];
+  if(data) {
+    data.forEach(function(element, index, array) {
+      element = massageHours(element);
+      $scope.data.push(element);
+    });
+  }
+
   $scope.reset = function() {
-  	$('ul.time input').prop("checked", "");
+    console.log("reset called");
+    this.clear();
+    var data = this.data;
+    for(var element of data) {
+      var elemNode = $('.time-slot input[name=\"' + element + '\"]');
+      elemNode.prop("checked", true);
+    }
+  }
+  $scope.clear = function() {
+  	$('ul.time input').prop("checked", false);
   }
   $scope.save = function() {
+    //avails: an array of available hours submitted
     var avails = [];
+    //put all currently selected hours in avails
     $('.time-slot input:checked').each(function() {
       avails.push($(this).attr('name'));
     });
-    avails = {"hours" : avails};
-    $.get( '/saveSchedule', avails, function(msg) {
+    //make it into an object for sending as post data
+    avails = {"numHours" : avails.length, "hours" : avails};
+    //post request to backend
+    $.post( '/saveSchedule', avails, function(msg) {
       console.log(msg);
       var message = $('#message');
       if(msg.indexOf("error") > -1) {
+        //if the message is about an error
         message.removeClass('alert-success').addClass('alert-danger');
       } else {
+        //successful save
         message.removeClass('alert-danger').addClass('alert-success');
+        //set availability data to the newly saved availability
+        $scope.data = avails['hours'];
       }
       message.show();
       message.html(msg);

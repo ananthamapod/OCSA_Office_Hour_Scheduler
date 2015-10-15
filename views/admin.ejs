@@ -1,0 +1,225 @@
+<% layout('layout') -%>
+<div class="container" ng-app="adminApp" ng-controller="mainController">
+  
+  <div class="page-header text-center">       
+  	<h1>OCSA Scheduler, Version 1.0</h1>
+  	<p>Logged in as Admin</p>
+    <a href="/crunchwrap">Crunchwrap</a>
+
+    <button type="button" class="btn btn-default" data-toggle="modal" data-target=".password-change" style="text-transform: none; font-weight:bold">Change password</button>
+    <div class="modal fade password-change" tabindex="-1" role="dialog" aria-labelledby="changePasswordModal" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-xs-12">
+                <h2>Change Admin Password</h2>
+                <small>Note: highly recommended to have an admin password</small>
+              </div>
+            </div>
+            <hr/>
+            <div class="row">
+              <div class="col-xs-12">
+                <div>
+                  <label for="oldpass">Enter your old password: </label>
+                  <input ng-model="oldPass" type="password" value="" name="oldpass"/>
+                </div>
+                <div>
+                  <label for="newpass">Enter your new password: </label>
+                  <input ng-model="newPass1" type="password" value="" name="newpass"/>
+                </div>
+                <div>
+                  <label for="newpass2">Confirm new password: </label>
+                  <input ng-model="newPass2" type="password" value="" name="newpass2"/>
+                </div>
+              </div>
+            </div>
+            <hr/>
+            <div class="row">
+              <div class="col-xs-12">
+                <button class="btn btn-success" ng-click="changePassword(oldPass, newPass1, newPass2)" data-dismiss="modal" aria-label="save">Save</button>
+                <button class="btn btn-default" data-dismiss="modal" aria-label="Close">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row usage-info">
+    <div class="col-xs-12 col-md-10 vcenter text-center">
+      <h4>
+        Welcome admin, add or remove users in the users tab, generate or view schedules in the schedules tab.
+      </h4>
+    </div><!--
+    --><div class="col-xs-2 col-md-2 vcenter text-center">
+      <a href="logout" class="btn btn-primary">Logout</a>
+    </div>
+  </div>
+
+  <div>
+
+    <ul class="nav nav-tabs nav-justified">
+        <li role="presentation" class="active"><a data-toggle="tab" href="#users">USERS</a></li>
+        <li role="presentation"><a data-toggle="tab" href="#schedules">SCHEDULES</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="users" class="tab-pane fade in active">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              
+            </div>
+            <div class="panel-body" style="overflow: auto;">
+              <% if(userData) { %>
+                <div class="row user-card" ng-repeat="user in users">
+                  <div class="col-xs-12">
+                    <div class="raised pull-right">
+                      <div class="display">
+                        <a href="" ng-click="deleteUser($index)" class="toEdit btn btn-default btn-icon"><i class="glyphicon glyphicon-trash" style="color: #222; font-size: 1.2em" aria-hidden="true"></i></a>
+
+                        <a href="" ng-click="edit($index)" class="toEdit btn btn-default btn-icon"><i class="glyphicon glyphicon-edit" style="color: #809AFF" aria-hidden="true"></i></a>
+                      </div>
+                      <div class="edit">
+                        <a href="" ng-click="save($index)" class="toEdit btn btn-default btn-icon"><i class="glyphicon glyphicon-ok" style="color: #72CD66; font-size: 1.2em" aria-hidden="true"></i></a>
+
+                        <a href="" ng-click="cancel($index)" class="toEdit btn btn-default btn-icon"><i class="glyphicon glyphicon-remove" style="color: #FF7F7F; font-size: 1.2em" aria-hidden="true"></i></a>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="editable col-xs-12 col-sm-5 col-md-5 vcenter">
+                        <div class="display">
+                          <p style="font-weight: 400; font-size: 2em">{{user['name']}}</p>
+                          <p>{{user['username']}}</p>
+                          <p style="color: #A4A4A4">{{user['email']}}</p>
+                        </div>
+                        <div class="edit">
+                          <div>
+                            <label for="user:{{user.username}}:name">Name:</label>
+                            <input type="text" name="user:{{user.username}}:name" ng-model="user.editName"/>
+                          </div>
+                          <div>
+                            <label for="user:{{user.username}}:username">Netid:</label>
+                            <input type="text" name="user:{{user.username}}:username" ng-model="user.editUsername"/>
+                          </div>
+                          <div>
+                            <label for="user:{{user.username}}:email">Email: </label>
+                            <input type="text" name="user:{{user.username}}:email" ng-model="user.editEmail"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="noneditable col-xs-12 col-sm-5 col-md-5 vcenter">
+                        <p>Number of hours available: {{user['numAvails']}}</p>
+                        <span title="{{user['username']}} has at least 5 hours available" class="glyphicon {{user['numAvails'] >= 3 ? 'glyphicon-check' : 'glyphicon-unchecked'}}" aria-hidden="true"></span>
+                      </div>
+                    </div>
+                  </div>
+                  <hr/>
+                </div>
+                <hr/>
+                <div class="row">
+                  <div class="col-xs-12 text-center">
+                    <div class="morph-container">
+                      <a href="" id="tryAddUser" ng-click="tryAddUser()" class="morphFrom btn addUser">Add a User</a>
+                      <span class="morphTo">
+                        <div class="clearfix">
+                          <h3 style="text-transform: uppercase; color: #fff">New User</h3>
+                          <hr/>
+                        </div>
+                        <div class="pull-left vcenter">
+                          <div>
+                            <label for="username" style="text-transform: uppercase">Netid: </label>
+                            <input type="text" ng-model="newUserName" value="" name="username" style=""/>
+                          </div>
+                          <div>
+                            <label for="name" style="text-transform: uppercase">Name: </label>
+                            <input type="text" ng-model="newName" value="" name="name" style=""/>
+                          </div>
+                          <div>
+                            <label for="email" style="text-transform: uppercase">Email: </label>
+                            <input type="text" ng-model="newEmail" value="" name="email" style=""/>
+                          </div>
+                        </div>
+                        <button id="addUser" ng-click="addUser(newUserName, newName, newEmail)" class="pull-right btn btn-secondary vcenter" style="color: #222;">Add</button>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              <% } else { %>
+                <div>
+                  Sorry, it looks like the database couldn't be accessed. Please refresh the page to try again. 
+                </div>
+              <% } %>
+            </div>
+          </div>
+        </div>
+        <div id="schedules" class="tab-pane fade">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              
+            </div>
+            <div class="panel-body" style="overflow: auto;">
+              <div ng-repeat="schedule in schedules" >
+                <schedule schedObj="{{schedule}}" days="{{days}}" hours="{{hours}}" />
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="btn-group pagebar" aria-label="First group" role="group">
+                <button ng-repeat="schedule in schedules" class="btn btn-default" type="button">{{$index}}</button>
+            </div>
+            <div>
+              <p class="text-center">
+                <a href="" ng-click="schedule()" class="btn btn-success">Schedule it!</a>
+              </p>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+  <div id="message" class="alert alert-success" role="alert">
+  </div>
+</div>
+<script src="jquery.js"></script>
+<script src="bootstrap.min.js"></script>
+<% if(userData) { %>
+<script>
+var users = [];
+var user = null;
+<% userData.forEach(function (item, index, array) { %>
+user = {"username" : "<%- item['netid'] %>", "name" : "<%- item['name'] %>", "email" : "<%- item['email'] %>", "numAvails" : <%- item['hours'].length %>};
+users.push(user);
+<% }); %>
+console.log(users);
+</script>
+<% } %>
+
+<!-- AngularJS Resources -->
+<!-- Modules -->
+<script src="ang-admin.js"></script>
+
+<!-- Controllers -->
+<script src="adminController.js"></script>
+
+<!-- Directives -->
+<script src="scheduleDirective.js"></script>
+
+<script>
+$(document).mouseup(function (e)
+{
+    var container = $(".morph-container");
+
+    if (!container.is(e.target) // if the target of the click isn't the container...
+        && container.has(e.target).length === 0) // ... nor a descendant of the container
+    {
+      console.log("focusout called");
+      if(container.hasClass("morph-enabled")) {
+        container.toggleClass("morph-enabled");
+        var to = container.find(".morphTo");
+        var from = container.find(".morphFrom");
+        to.css("display", "none");
+        from.fadeIn();
+        to.find("input").val("");
+      }
+    }
+});
+</script>

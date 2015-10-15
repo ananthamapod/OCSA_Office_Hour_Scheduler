@@ -1,0 +1,108 @@
+<% layout('layout') -%>
+<div class="container" ng-app="scheduleApp">
+  
+  <div class="page-header text-center">       
+  	<h1>OCSA Scheduler, Version 1.0</h1>
+  	<p>User <%- user %></p>
+    <button type="button" class="btn btn-default" data-toggle="modal" data-target=".password-change" style="text-transform: none; font-weight:bold"><i class="glyphicon glyphicon-user"></i> Edit Profile</button>
+    <div class="modal fade password-change" tabindex="-1" role="dialog" aria-labelledby="changePasswordModal" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-xs-12">
+                <h2>Change Admin Password</h2>
+                <small>Note: highly recommended to have an admin password</small>
+              </div>
+            </div>
+            <hr/>
+            <div class="row">
+              <div class="col-xs-12">
+                <div>
+                  <label for="oldpass">Enter your old password: </label>
+                  <input ng-model="oldPass" type="password" value="" name="oldpass"/>
+                </div>
+                <div>
+                  <label for="newpass">Enter your new password: </label>
+                  <input ng-model="newPass1" type="password" value="" name="newpass"/>
+                </div>
+                <div>
+                  <label for="newpass2">Confirm new password: </label>
+                  <input ng-model="newPass2" type="password" value="" name="newpass2"/>
+                </div>
+              </div>
+            </div>
+            <hr/>
+            <div class="row">
+              <div class="col-xs-12">
+                <button class="btn btn-success" ng-click="changePassword(oldPass, newPass1, newPass2)" data-dismiss="modal" aria-label="save">Save</button>
+                <button class="btn btn-default" data-dismiss="modal" aria-label="Close">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row usage-info">
+    <div class="col-xs-12 col-md-10 vcenter text-center">
+      <h3>
+        Welcome <%- name %>, edit your availability here. Green means you're available, red means you're not. Pretty self explanatory.
+      </h3>
+    </div><!--
+    --><div class="col-xs-12 col-md-2 vcenter text-center">
+      <a href="logout" class="btn btn-primary">Logout</a>
+    </div>
+  </div>
+
+  <div ng-controller="mainController">
+    <div class="row times ">
+
+      <div data-main-Directive ng-repeat="day in days" class="column-5 text-center">
+                
+        <h2>{{day.name}}</h2>
+        
+        <div class="time-slot">
+        	<ul id="{{day.name}}" class="time">
+        		<li ng-repeat="hour in hours">
+  		        <input type="checkbox" name="{{day.short}}{{hour.hour}}" id="{{day.short}}-{{hour.hour}}">
+  		        <label for="{{day.short}}-{{hour.hour}}">{{hour.hour}}</label>
+        		</li>
+        	</ul>
+        </div>
+      </div>
+    </div>
+
+    <p class="text-center">
+      <a href="" ng-click="save()" class="btn btn-primary">Save</a>
+      <a href="" ng-click="reset()" class="btn btn-warning">Reset</a>
+      <a href="" ng-click="clear()" class="btn btn-danger">Clear</a>
+    </p>
+  </div>
+  <div id="message" class="alert alert-success" role="alert">
+  </div>
+</div>
+<script src="jquery.js"></script>
+<script src="bootstrap.min.js"></script>
+<script src="massageHours.js"></script>
+<script>
+<% if(data) { %>
+var data = [];
+<%  data.forEach(function(element, index, array) { %>
+data.push("<%- element %>");
+<%  }); %>
+<% } else { %>
+var error = "Sorry, there was a holdup in the database so your schedule couldn't be loaded. Please refresh the page to retry loading your schedule.";
+<% } %>
+console.log(data);
+</script>
+
+<!-- AngularJS Resources -->
+<!-- Modules -->
+<script src="ang-schedule.js"></script>
+
+<!-- Controllers -->
+<script src="userController.js"></script>
+
+<!-- Directives -->
+<script src="resetDirective.js"></script>

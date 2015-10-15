@@ -1,17 +1,17 @@
 /**Generic node
 */
 var Node = function(data) {
-	this.data: data;
-	this.prev: null;
-	this.next: null;
+	this.data = data;
+	this.prev = null;
+	this.next = null;
 }
 
 /**Custom implementation of a queue, uses an internal linkedlist
 */
 var Queue = function() {
-	this.size: 0;
-	this.first: null;
-	this.last: null;
+	this.size = 0;
+	this.first = null;
+	this.last = null;
 }
 /**enqueue function
 throws Error if data is null
@@ -51,6 +51,9 @@ Queue.prototype.dequeue = function() {
 	}
 };
 
+var exports  = module.exports = {};
+
+
 /**Just a quick function for computing a combination.
 Takes in array of possibilities poss, number of elements to be chosen k.
 Returns 2d array of combinations
@@ -74,7 +77,7 @@ function combinations(poss, k) {
 /**Generates possible schedules given the availability of all the users.
 Uses a bipartite graph algorithm.
 */
-function generateMatches(users) {
+exports.generateMatches = function(users) {
 	var hours = ["M9","M10","M11","M12","M1","M2","M3","M4","M5","M6","M7",
 		"T9","T10","T11","T12","T1","T2","T3","T4","T5","T6","T7",
 		"W9","W10","W11","W12","W1","W2","W3","W4","W5","W6","W7",
@@ -145,13 +148,5 @@ function generateMatches(users) {
 		}
 
 		B.push(p);
-	}
-}
-
-function pullDownFromDB(user, pass) {
-	if(user === "admin") {
-		db.collection('users', function(err, collection) {
-			collection.find();
-		});
 	}
 }
