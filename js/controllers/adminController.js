@@ -229,10 +229,14 @@ app.controller('mainController', function ($scope) {
     $.get('/crunchwrap', function(response) {
       if(response) {
         console.log(response);
-        $("#message").html(response);
-        $scope.schedule = response;
+        $scope.schedules = response.matches;
         $scope.$apply();
+        console.log($scope.schedules);
       }
     });
+  }
+
+  $scope.getName = function(day, hour) {
+    return day + hour.slice(0,hour.indexOf(':'));
   }
 });

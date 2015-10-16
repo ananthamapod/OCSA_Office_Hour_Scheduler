@@ -1,7 +1,7 @@
 <% layout('layout') -%>
 <div class="container" ng-app="adminApp" ng-controller="mainController">
-  
-  <div class="page-header text-center">       
+
+  <div class="page-header text-center">
   	<h1>OCSA Scheduler, Version 1.0</h1>
   	<p>Logged in as Admin</p>
     <a href="/crunchwrap">Crunchwrap</a>
@@ -67,7 +67,7 @@
         <div id="users" class="tab-pane fade in active">
           <div class="panel panel-default">
             <div class="panel-heading">
-              
+
             </div>
             <div class="panel-body" style="overflow: auto;">
               <% if(userData) { %>
@@ -146,7 +146,7 @@
                 </div>
               <% } else { %>
                 <div>
-                  Sorry, it looks like the database couldn't be accessed. Please refresh the page to try again. 
+                  Sorry, it looks like the database couldn't be accessed. Please refresh the page to try again.
                 </div>
               <% } %>
             </div>
@@ -155,11 +155,33 @@
         <div id="schedules" class="tab-pane fade">
           <div class="panel panel-default">
             <div class="panel-heading">
-              
+
             </div>
             <div class="panel-body" style="overflow: auto;">
               <div ng-repeat="schedule in schedules" >
-                <schedule schedObj="{{schedule}}" days="{{days}}" hours="{{hours}}" />
+                <!--<schedule schedObj="{{schedule}}" days="{{days}}" hours="{{hours}}" />-->
+                <table class="table text-center">
+                  <thead>
+                    <tr>
+                      <th>
+                        &nbsp;
+                      </th>
+                      <th ng-repeat="day in days">
+                        {{day.name}}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="hour in hours">
+                      <th>
+                        {{hour.hour}}
+                      </th>
+                      <td ng-repeat="day in days">
+                        {{schedule.hours[getName(day.short, hour.hour)]}}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
@@ -189,7 +211,6 @@ var user = null;
 user = {"username" : "<%- item['netid'] %>", "name" : "<%- item['name'] %>", "email" : "<%- item['email'] %>", "numAvails" : <%- item['hours'].length %>};
 users.push(user);
 <% }); %>
-console.log(users);
 </script>
 <% } %>
 

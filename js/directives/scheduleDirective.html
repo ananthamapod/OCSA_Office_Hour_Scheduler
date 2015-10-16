@@ -14,11 +14,9 @@
       <th>
         {{hour.hour}}
       </th>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td ng-repeat="day in days">
+        {{schedule.hours[getName(day.short, hour.hour)]}}
+      </td>
     </tr>
   </tbody>
 </table>

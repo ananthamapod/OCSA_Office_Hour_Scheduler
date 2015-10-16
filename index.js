@@ -453,7 +453,7 @@ function saveSchedule(req, res, next) {
 
 //-------------------Admin Interactions-----------------------//
 function addUser(req, res, next) {
-  if(req.session.netid === "admin" && req.body.username) {
+  if(req.session.netid === "admin" && req.body.username && req.body.username != "admin") {
     var query = { "netid" : req.body.username, "password" : "", "name" : req.body.name, "email" : (req.body.email? req.body.email: ""), "hours" : [] };
     console.log(query);
     MongoClient.connect(url, function(err, db) {
@@ -483,7 +483,7 @@ function addUser(req, res, next) {
 }
 
 function editUser(req, res, next) {
-  if(req.session.netid && req.body.username) {
+  if(req.session.netid && req.body.username && req.body.username != "admin") {
     var query = {
       "$set" : {
         "netid" : req.body.username,
@@ -572,7 +572,12 @@ function crunchwrap(req, res, next) {
               users.push(new User(elem['name'], elem['hours']));
             });
             var matches = generateMatches(users);
-            res.json(matches);
+            var matchArray = [];
+
+            while(matches.size > 0) {
+              matchArray.push(matches.dequeue());
+            }
+            res.json({"matches" : matchArray});
           }
           db.close();
         });
