@@ -29,6 +29,7 @@ Match.prototype.addHour = function(hour, name) {
 var User = require('./user');
 var Match = require('./match');
 var Queue = require('./queue');
+var combinations = require('./NCombinatoR/node/NCombinatoR');
 
 //-----------------------------------------------------------//
 
@@ -88,6 +89,7 @@ Queue.prototype.dequeue = function() {
 Takes in array of possibilities poss, number of elements to be chosen k.
 Returns 2d array of combinations
 */
+/*
 function combinations(poss, k) {
   if(!(typeof poss === "object") || !(typeof k === "number")) {
     return null;
@@ -108,6 +110,7 @@ function combinations(poss, k) {
   }
   return ret;
 }
+*/
 
 /**Generates possible schedules given the availability of all the users.
 Uses a bipartite graph algorithm.
@@ -168,9 +171,11 @@ function generateMatches(users) {
         continue;
       }
 
-      var possibilities = combinations(availHours, N);
+      var possibilities = combinations(availHours.length, N, availHours);
+      console.log(possibilities);
+      possibilities = possibilities.data;
 
-      possibility = possibilities[0];
+      var possibility = possibilities[0];
         var newM = oldM.clone();
 
         for(var i = 0; i < 3; i++) {
