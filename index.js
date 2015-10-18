@@ -175,14 +175,14 @@ function generateMatches(users) {
       console.log(possibilities);
       possibilities = possibilities.data;
 
-      var possibility = possibilities[0];
-        var newM = oldM.clone();
+      possibility = possibilities[0];
+      var newM = oldM.clone();
 
-        for(var i = 0; i < 3; i++) {
-          newM.addHour(possibility[i], p.name);
-        }
+      for(var i = 0; i < 3; i++) {
+        newM.addHour(possibility[i], p.name);
+      }
 
-        matches.enqueue(newM);
+      matches.enqueue(newM);
 
       k--;
     }
