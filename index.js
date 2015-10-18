@@ -33,85 +33,6 @@ var combinations = require('./NCombinatoR/node/NCombinatoR');
 
 //-----------------------------------------------------------//
 
-//-----------------------Crunchwrap--------------------------//
-/**Generic node
-*/
-var Node = function(data) {
-  this.data = data;
-  this.next = null;
-}
-
-/**Custom implementation of a queue, uses an internal linkedlist
-*/
-var Queue = function() {
-  this.size = 0;
-  this.first = null;
-  this.last = null;
-}
-/**enqueue function
-throws Error if data is null
-*/
-Queue.prototype.enqueue = function(data) {
-  if(data === null) {
-    throw new Error("Nothing to enqueue");
-  }
-  var node = new Node(data);
-  if((this.first === null) || !(typeof this.first === "object")) {
-    this.first = node;
-    this.last = node;
-  } else {
-    this.last.next = node;
-
-    this.last = node;
-  }
-  this.size++;
-};
-/**dequeue function
-throws Error if queue is already empty
-*/
-Queue.prototype.dequeue = function() {
-  if((!this.first === null) || !(typeof this.first === "object")) {
-    throw new Error("Nothing to dequeue");
-  } else {
-    var node = this.first;
-    if(this.last === node) {
-      this.last = null;
-      this.first = null;
-    } else {
-      this.first = this.first.next;
-    }
-    this.size--;
-    return node.data;
-  }
-};
-
-/**Just a quick function for computing a combination.
-Takes in array of possibilities poss, number of elements to be chosen k.
-Returns 2d array of combinations
-*/
-/*
-function combinations(poss, k) {
-  if(!(typeof poss === "object") || !(typeof k === "number")) {
-    return null;
-  }
-  var ret = [];
-  var n = poss.length;
-  var xs = [];
-  for (var i = 0; i < k; i++) {
-    xs.push(i);
-  }
-
-  for(var x = 0; x < n; x++) {
-    for(var y = x + 1; y < n; y++) {
-      for(var z = y + 1; z < n; z++) {
-        ret.push([poss[x],poss[y],poss[z]]);
-      }
-    }
-  }
-  return ret;
-}
-*/
-
 /**Generates possible schedules given the availability of all the users.
 Uses a bipartite graph algorithm.
 */
@@ -212,12 +133,8 @@ var credentials = {key: privateKey, cert: certificate};
 var session = require('express-session');
 var bodyParser = require('body-parser');
 
-//http and https protocols
-var http = require('http').Server(app);
+//https protocol
 var https = require('https').Server(credentials, app);
-
-//socket.io just for playing around with some small real time stuff
-var io = require('socket.io')(https);
 
 //mongoclient for db interactions
 var MongoClient = require('mongodb').MongoClient
@@ -703,7 +620,7 @@ app.get('/test1', function(req, res) {
   var testMatches = new Queue();
   for(var i = 1; i < 11; i++) {
     var newMatch = new Match();
-    newMatch.addHour("T" + i, "avr37");
+    newMatch.addHour("T" + i, "1");
     testMatches.enqueue(newMatch);
   }
   console.log(testMatches);
@@ -721,19 +638,7 @@ app.get('/test1', function(req, res) {
 
 
 
-//----Just for playing around with real-time interaction-----//
-io.on('connection', function(socket){
-  console.log('a user connected');
-  socket.on('chat message', function(msg){
-    io.emit('chat message', msg);
-  });
-  socket.on('chat message', function(msg){
-    console.log('message: ' + msg);
-  });
-  socket.on('disconnect', function(){
-    console.log('user disconnected');
-  });
-});
+//---------------------STARTING THE SERVER-------------------//
 
 https.listen(3000, function() {
 	console.log('listening on *:3000');

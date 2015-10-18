@@ -4,7 +4,6 @@
   <div class="page-header text-center">
   	<h1>OCSA Scheduler, Version 1.0</h1>
   	<p>Logged in as Admin</p>
-    <a href="/crunchwrap">Crunchwrap</a>
 
     <button type="button" class="btn btn-default" data-toggle="modal" data-target=".password-change" style="text-transform: none; font-weight:bold">Change password</button>
     <div class="modal fade password-change" tabindex="-1" role="dialog" aria-labelledby="changePasswordModal" aria-hidden="true">
@@ -125,21 +124,19 @@
                           <h3 style="text-transform: uppercase; color: #fff">New User</h3>
                           <hr/>
                         </div>
-                        <div class="pull-left vcenter">
-                          <div>
-                            <label for="username" style="text-transform: uppercase">Netid: </label>
-                            <input type="text" ng-model="newUserName" value="" name="username" style=""/>
-                          </div>
-                          <div>
-                            <label for="name" style="text-transform: uppercase">Name: </label>
-                            <input type="text" ng-model="newName" value="" name="name" style=""/>
-                          </div>
-                          <div>
-                            <label for="email" style="text-transform: uppercase">Email: </label>
-                            <input type="text" ng-model="newEmail" value="" name="email" style=""/>
-                          </div>
+                        <div style="padding: 0.2em">
+                          <label for="username" style="text-transform: uppercase">Netid: </label>
+                          <input type="text" ng-model="newUserName" value="" name="username" style=""/>
                         </div>
-                        <button id="addUser" ng-click="addUser(newUserName, newName, newEmail)" class="pull-right btn btn-secondary vcenter" style="color: #222;">Add</button>
+                        <div style="padding: 0.2em">
+                          <label for="name" style="text-transform: uppercase">Name: </label>
+                          <input type="text" ng-model="newName" value="" name="name" style=""/>
+                        </div>
+                        <div style="padding: 0.2em">
+                          <label for="email" style="text-transform: uppercase">Email: </label>
+                          <input type="text" ng-model="newEmail" value="" name="email" style=""/>
+                        </div>
+                        <button id="addUser" ng-click="addUser(newUserName, newName, newEmail)" class="btn btn-secondary" style="color: #222;">Add</button>
                       </span>
                     </div>
                   </div>
@@ -164,9 +161,10 @@
                   <thead>
                     <tr>
                       <th>
-                        &nbsp;
+                        <div>
+                        </div>
                       </th>
-                      <th ng-repeat="day in days">
+                      <th class="text-center" ng-repeat="day in days">
                         {{day.name}}
                       </th>
                     </tr>
@@ -187,7 +185,7 @@
           </div>
           <div>
             <div class="btn-group pagebar" aria-label="First group" role="group">
-                <button ng-repeat="schedule in schedules" class="btn btn-default" type="button">{{$index}}</button>
+                <button ng-repeat="schedule in schedules" class="btn btn-default" type="button">{{$index+1}}</button>
             </div>
             <div>
               <p class="text-center">

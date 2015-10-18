@@ -1,3 +1,10 @@
+/**Generic node
+*/
+var Node = function(data) {
+  this.data = data;
+  this.next = null;
+}
+
 /**Custom implementation of a queue, uses an internal linkedlist
 */
 var exports = module.exports = function() {

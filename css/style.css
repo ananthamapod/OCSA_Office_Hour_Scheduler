@@ -108,33 +108,33 @@ ul.time {
 .time-slot               {  }
 
 /* hide the checkbox itself - the label will be styled */
-.time-slot input     { 
-  display:none; 
+.time-slot input     {
+  display:none;
 }
 
 /* default styling for our labels */
-.time-slot label     { 
-  padding:1rem 0px; 
-  color:#FFF; 
-  cursor:pointer; 
-  background:#EEE; 
+.time-slot label     {
+  padding:1rem 0px;
+  color:#FFF;
+  cursor:pointer;
+  background:#EEE;
   border-radius:5px;
   width: 100%;
   transition:0.3s ease all;
 }
 
 /* if the label is checked */
-.time-slot input:checked ~ label { 
+.time-slot input:checked ~ label {
   background:#6AB074;
   cursor:not-allowed;
-  animation:flashAvailable 0.5s ease; 
+  animation:flashAvailable 0.5s ease;
 }
 
 /* if the label is not checked */
-.time-slot input:not(:checked) ~ label { 
+.time-slot input:not(:checked) ~ label {
   background:#f2dede;
   color: #888;
-  animation:flashBooked 0.5s ease; 
+  animation:flashBooked 0.5s ease;
 }
 
 /* animation for the time slot to flash red */
@@ -174,7 +174,7 @@ table {
 }
 
 table tbody tr:nth-child(odd), .user-card:nth-child(even) {
-  background: #eee;
+  background: #def;
 }
 
 .pagebar {
@@ -193,14 +193,14 @@ table tbody tr:nth-child(odd), .user-card:nth-child(even) {
 }
 .user-card .noneditable .glyphicon-unchecked {
   color: #FF7F7F;
-} 
+}
 
 .addUser {
   background: #809AFF;
   color: white;
 }
 .addUser:hover, .addUser:active, .addUser:focus {
-  background: #8084FF;
+  background: #708AEF;
   color: white;
 }
 
